@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Listening Quiz</title>
+  <style>
+    body {
+      font-family: "Hiragino Kaku Gothic Pro", "Meiryo", sans-serif;
+      display:flex;flex-direction:column;align-items:center;padding:40px;
+      color:#333;text-align:center;background:transparent;
+    }
+    h1{color:#b23b3b;font-size:2em;margin-bottom:20px;}
+    button{font-size:18px;padding:12px 24px;margin:10px;border-radius:12px;cursor:pointer;transition:.3s}
+    #playSound{background:#fff;color:#b23b3b;border:3px solid #b23b3b}
+    #playSound:hover{background:#ffe6f2}
+    .choice{background:#b23b3b;color:#fff;border:2px solid #b23b3b;padding:10px 18px;margin:6px;border-radius:10px}
+    .choice:hover{background:#ff4da6}
+    #choices{display:flex;flex-wrap:wrap;justify-content:center;max-width:720px}
+    #result{font-size:20px;margin-top:18px;font-weight:600}
+    .meta{font-size:0.9rem;color:#666;margin-top:8px}
+  </style>
+</head>
+<body>
+  <h1>🎧 Listening Quiz</h1>
+  <button id="playSound">▶︎ Play Sound</button>
+  <div id="choices"></div>
+  <div id="result"></div>
+  <div class="meta">Click Play Sound, then choose the correct hiragana form.</div>
+
+  <!-- AUDIO ELEMENTS: ids are romaji keys (used by playCurrentSound). 
+       src uses your GitHub raw URLs where available; otherwise a local placeholder. -->
+  <audio id="konnan" src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/こんなん.mp3"></audio>
+  <audio id="bonsai" src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/ぼんさい.mp3"></audio>
+  <audio id="denki" src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/でんき.mp3"></audio>
+  <audio id="konzatsu" src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/こんざつ.mp3"></audio>
+  <audio id="kankoku" src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/かんこく.mp3"></audio>
+  <audio id="unten" src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/うんてん.mp3"></audio>
+  <audio id="sannen" src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/さんねん.mp3"></audio>
+  <audio id="kondo" src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/こんど.mp3"></audio>
+  <audio id="sensei" src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/せんせい.mp3"></audio>
+  <audio id="genki" src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/げんき.mp3"></audio>
+  <audio id="sentaku" src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/せんたく.mp3"></audio>
+  <audio id="okane" src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/おかね.mp3"></audio>
+  <audio id="zasshi" src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/ざっし.mp3"></audio>
+  <audio id="shinsetsu_na" src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/しんせつな.mp3"></audio>
+  <audio id="ichi_en" src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/いちえん.mp3"></audio>
+  <audio id="seigen" src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/せいげん.mp3"></audio>
+  <audio id="kokusai" src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/こくさい.mp3"></audio>
+  <audio id="sonna_koto" src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/そんなこと.mp3"></audio>
+  <audio id="sanka" src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/さんか.mp3"></audio>
+  <audio id="shinken" src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/しんけん.mp3"></audio>
+
+  <!-- repo also provided many of these -->
+  <audio id="tenki" src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/てんき.mp3"></audio>
+  <audio id="anshin" src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/あんしん.mp3"></audio>
+  <audio id="tanoshii" src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/たのしい.mp3"></audio>
+  <audio id="negai" src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/ねがい.mp3"></audio>
+  <audio id="jinsei" src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/いんせい.mp3"></audio><!-- note: file name looked like いんせい in repo listing -->
+  <audio id="nagai" 
+src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/ながい.mp3"></audio> 
+  <audio id="saka" src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/さか.mp3"></audio>
+  <audio id="gakki" src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/がっき.mp3"></audio>
+  <audio id="sakka" src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/さっか.mp3"></audio>
+  <audio id="gaki" src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/がき.mp3"></audio>
+  <audio id="kagi" src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/かぎ.mp3"></audio>
+  <audio id="kakoku" src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/かこく.mp3"></audio>
+  <audio id="kakkoku" 
+src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/かっこく.mp3"></audio>
+  <audio id="kitte_kudasai" src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/きってください.mp3"></audio>
+  <audio id="kite_kudasai" src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/きてください.mp3"></audio>
+  <audio id="kiite_kudasai" src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/きいてください.mp3"></audio>
+  <audio id="iku" src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/いく.mp3"></audio>
+  <audio id="ita" src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/いた.mp3"></audio>
+  <audio id="itta" src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/いった.mp3"></audio>
+  <audio id="kata" src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/かた.mp3"></audio>
+  <audio id="katta" src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/かった.mp3"></audio>
+  <audio id="kaita" src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/かいた.mp3"></audio>
+  <audio id="sannin" src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/さんにん.mp3"></audio>
+  <audio id="kinoko" src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/きのこ.mp3"></audio>
+  <audio id="inu" src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/いぬ.mp3"></audio>
+  <audio id="oni" src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/おに.mp3"></audio>
+  <audio id="onaka" src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/おなか.mp3"></audio>
+  <audio id="nani" src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/なに.mp3"></audio>
+<audio id="nanika" src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/%E3%81%AA%E3%81%AB%E3%81%8B.mp3"></audio>
+<audio id="naku" src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/%E3%81%AA%E3%81%8F.mp3"></audio>
+<audio id="naze" src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/%E3%81%AA%E3%81%9C.mp3"></audio>
+<audio id="ninau" src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/%E3%81%AB%E3%81%AA%E3%81%86.mp3"></audio>
+<audio id="nikki" src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/%E3%81%AB%E3%81%A3%E3%81%8D.mp3"></audio>
+<audio id="ninki" src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/%E3%81%AB%E3%82%93%E3%81%8D.mp3"></audio>
+<audio id="nokosu" src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/%E3%81%AE%E3%81%93%E3%81%99.mp3"></audio>
+<audio id="kuni" src="https://raw.githubusercontent.com/k58835032-notbot/hiragana-lesson-5-listening-2/main/%E3%81%8F%E3%81%AB.mp3"></audio>
+
+
+<script>
+  // FULL quizQuestions — romaji in q (audio id), options are hiragana, correct is hiragana
+  const quizQuestions = [
+    { q:"konnan", options:["こっなん","こなん","こんなん","こーなん"], correct:"こんなん"},
+    { q:"bonsai", options:["ぼんさい","ぼぬさい","ぼなさい","ぼっさい"], correct:"ぼんさい"},
+    { q:"denki", options:["でんし","でっき","でぬき","でんき"], correct:"でんき"},
+    { q:"konzatsu", options:["ごんざつ","こっさつ","こぬさつ","こんざつ"], correct:"こんざつ"},
+    { q:"kankoku", options:["かっこく","がっこく","かんこく","かぐこく"], correct:"かんこく"},
+    { q:"unten", options:["うんでん","こってん","こんてん","うんてん"], correct:"うんてん"},
+    { q:"sannen", options:["さねん","さんねん","さっねん","さね"], correct:"さんねん"},
+    { q:"kondo", options:["こんと","こんど","こっど","こぬど"], correct:"こんど"},
+    { q:"sensei", options:["せんさい","せんせい","せいせい","せっせい"], correct:"せんせい"},
+    { q:"genki", options:["げんぎ","げんき","げっき","けっき"], correct:"げんき"},
+    { q:"sentaku", options:["せんたく","せったく","せんたけ","せんだく"], correct:"せんたく"},
+    { q:"okane", options:["おかん","おがん","おかね","おがね"], correct:"おかね"},
+    { q:"zasshi", options:["ざんし","さんし","なんし","ざっし"], correct:"ざっし"},
+    { q:"shinsetsu_na", options:["しんせつな","しっせつな","しっせいだ","しんせいた"], correct:"しんせつな"},
+    { q:"ichi_en", options:["いちねん","いせん","いしえん","いちえん"], correct:"いちえん"},
+    { q:"seigen", options:["せんけい","せんげい","せいげん","せいけん"], correct:"せいげん"},
+    { q:"kokusai", options:["こくさん","ごくさい","ごくさん","こくさい"], correct:"こくさい"},
+    { q:"sonna_koto", options:["そっなこと","そんなこと","こっなこと","こんなこて"], correct:"そんなこと"},
+    { q:"sanka", options:["さっか","さんか","きっか","きんか"], correct:"さんか"},
+    { q:"shinken", options:["しんけい","しっけん","しっけい","しんけん"], correct:"しんけん"},
+
+    // added words
+    { q:"tenki", options:["てんぎ","てんき","でんき","てんっき"], correct:"てんき"},
+    { q:"anshin", options:["あんせん","あっしん","あんしん","あんせい"], correct:"あんしん"},
+    { q:"tanoshii", options:["たのしい","たのし","たぬしい","だのしい"], correct:"たのしい"},
+    { q:"negai", options:["ねがい","ねがえ","ねが","ねがう"], correct:"ねがい"},
+    { q:"jinsei", options:["じんせい","じんせ","じっせい","じんせん"], correct:"じんせい"},
+    { q:"nagai", options:["ながい","ながえ","なかい","なが"], correct:"ながい"},
+    { q:"saka", options:["さか","さっか","さが","さけ"], correct:"さか"},
+    { q:"gakki", options:["がっき","がき","かっき","がっぎ"], correct:"がっき"},
+    { q:"sakka", options:["さっか","さんか","さか","さっかー"], correct:"さっか"},
+    { q:"gaki", options:["がき","がっき","かき","がぎ"], correct:"がき"},
+    { q:"kagi", options:["かぎ","かぎい","がぎ","かっぎ"], correct:"かぎ"},
+    { q:"kakoku", options:["かこく","かっこく","がこく","かこっく"], correct:"かこく"},
+    { q:"kakkoku", options:["かっこく","かっおく","かこき","がっこき"], correct:"かっこく"},
+    { q:"kitte_kudasai", options:["きてください","きってください","きいってください","きっでください"], correct:"きってください"},
+    { q:"kiite_kudasai", options:["きってください","きいてください","きてください","きぃてください"], correct:"きいてください"},
+    { q:"iku", options:["いく","いっく","いくう","いぐ"], correct:"いく"},
+    { q:"itte", options:["いっく","いった","いた","いって"], correct:"いって"},
+    { q:"ita", options:["いた","いだ","いった","いっだ"], correct:"いた"},
+    { q:"itta", options:["いった","いた","いっだ","いった"], correct:"いった"},
+    { q:"kata", options:["かた","かった","かたっ","がた"], correct:"かた"},
+    { q:"katta", options:["かた","かっだ","かった","かったー"], correct:"かった"},
+    { q:"kaita", options:["かいた","かいだ","かいだー","かった"], correct:"かいた"},
+    { q:"sannin", options:["さんねん","さんにん","さっにん","さねん"], correct:"さんにん"}
+  ];
+
+  // state
+  let currentQuestion = null;
+
+  function newQuestion(){
+    const randomIndex = Math.floor(Math.random()*quizQuestions.length);
+    currentQuestion = quizQuestions[randomIndex];
+    renderChoices(currentQuestion);
+    // optionally autoplay sound on new question:
+    // playCurrentSound();
+  }
+
+  function renderChoices(q){
+    const choicesDiv = document.getElementById("choices");
+    choicesDiv.innerHTML = "";
+    // shuffle options
+    const shuffled = [...q.options].sort(()=>0.5-Math.random());
+    shuffled.forEach(opt=>{
+      const btn = document.createElement("button");
+      btn.className = "choice";
+      btn.textContent = opt;
+      btn.onclick = ()=>checkAnswer(opt);
+      choicesDiv.appendChild(btn);
+    });
+    document.getElementById("result").textContent = "";
+  }
+
+  function playCurrentSound(){
+    if(!currentQuestion) return;
+    const audioEl = document.getElementById(currentQuestion.q);
+    if(audioEl){
+      audioEl.currentTime = 0;
+      audioEl.play().catch(err=>{
+        // autoplay may be blocked until user interacts — ignore silently
+        console.log("Audio play prevented or failed:", err);
+      });
+    } else {
+      console.log("No audio element for id:", currentQuestion.q);
+    }
+  }
+
+  function checkAnswer(choice){
+    const resultEl = document.getElementById("result");
+    if(choice === currentQuestion.correct){
+      resultEl.textContent = "✅ Correct!";
+      resultEl.style.color = "#28a745";
+    } else {
+      resultEl.textContent = `❌ Wrong — correct: ${currentQuestion.correct}`;
+      resultEl.style.color = "#d63384";
+    }
+    setTimeout(newQuestion, 900);
+  }
+
+  document.getElementById("playSound").addEventListener("click", playCurrentSound);
+
+  // first question
+  newQuestion();
+</script>
+</body>
+</html>
